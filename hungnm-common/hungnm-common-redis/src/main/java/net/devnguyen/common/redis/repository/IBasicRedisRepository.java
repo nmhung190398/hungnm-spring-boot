@@ -1,4 +1,4 @@
-package net.devnguyen.bestpractices.redis.findallbyids.repository;
+package net.devnguyen.common.redis.repository;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,4 +10,8 @@ public interface IBasicRedisRepository<V> {
     void saveAll(List<V> list);
     void deletedById(String id);
     Optional<V> findById(String id);
+    List<V> findAll();
+    long count();
+    boolean existsById(String id);
+    void deleteAll();
 }

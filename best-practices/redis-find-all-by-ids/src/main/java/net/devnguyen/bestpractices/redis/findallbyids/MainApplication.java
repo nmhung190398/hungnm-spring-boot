@@ -15,7 +15,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.StopWatch;
 
 import javax.annotation.PostConstruct;
@@ -33,8 +36,9 @@ public class MainApplication {
     @Bean
     CommandLineRunner initData(HighSpeedRepository highSpeedRepository, LowSpeedRepository lowSpeedRepository){
         return args -> {
+
             int size = 5000;
-            size = 1;
+//            size = 1;
             StopWatch stopWatch = new StopWatch();
             stopWatch.start("save LowSpeedDomain");
 //            for(var i = 1L; i <= size; ++i){
@@ -59,16 +63,6 @@ public class MainApplication {
                         .data(UUID.randomUUID().toString())
                         .build());
             }
-
-            highSpeedRepository.saveAll(List.of(HighSpeedDomain.builder()
-                    .id(UUID.randomUUID().toString())
-                    .data(UUID.randomUUID().toString())
-                    .build(),HighSpeedDomain.builder()
-                    .id(UUID.randomUUID().toString())
-                    .data(UUID.randomUUID().toString())
-                    .build()));
-
-
             stopWatch.stop();
             log.info("TotalTimeSeconds : {}s",stopWatch.getTotalTimeSeconds());
             log.info(stopWatch.prettyPrint());
